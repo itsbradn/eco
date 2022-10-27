@@ -4,7 +4,7 @@ import { BotWithCustomProps } from '../bot';
 import { userModel } from '../../db/schemas';
 import { IUser } from '../../db/types/user';
 import { Document, Types } from 'mongoose';
-import { UserCoinManager } from '../managers/User';
+import { UserCoinManager, UserHealthManager, UserLevelManager } from '../managers/User';
 import { UserGemManager } from '../managers/User/GemManager';
 
 /**
@@ -78,6 +78,14 @@ abstract class HydratedUserModule extends UserModule {
 
 	get gems(): UserGemManager {
 		return new UserGemManager(this.bot, this.userId, this.model);
+	}
+
+	get level(): UserLevelManager {
+		return new UserLevelManager(this.bot, this.userId, this.model);
+	}
+
+	get health(): UserHealthManager {
+		return new UserHealthManager(this.bot, this.userId, this.model);
 	}
 
 	/**
