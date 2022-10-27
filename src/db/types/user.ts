@@ -4,6 +4,7 @@ export interface IUser {
 		firstCommandAt: Date,
 		lastUsed: Date,
 		schemaVer: number,
+		experience: number,
 	},
 	economy: {
 		coins: number,

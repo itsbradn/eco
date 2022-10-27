@@ -23,6 +23,13 @@ export const userSchema = new Schema<IUser>({
 			set: (v: number) => Math.round(v),
 			validate: validateInteger,
 		},
+		experience: {
+			type: Number,
+			default: 1,
+			get: (v: number) => Math.round(v),
+			set: (v: number) => Math.round(v),
+			validate: validateInteger,
+		},
 	},
 	economy: {
 		coins: {
