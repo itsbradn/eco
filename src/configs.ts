@@ -34,3 +34,5 @@ export const INTENTS: Intents =
 	Intents.GuildVoiceStates |
 	Intents.GuildWebhooks |
 	Intents.Guilds;
+
+export const HEALTH_REGEN_RATE = 1;
