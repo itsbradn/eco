@@ -1,3 +1,5 @@
+import { jobType } from '../../bot/data/jobs';
+
 export interface IUser {
 	user: {
 		id: string,
@@ -70,7 +72,7 @@ export interface IUser {
 		timesSick: number,
 		timesFired: number,
 		lastWorkedAt?: Date,
-		job: string,
+		job: jobType,
 		raise: {
 			level: string,
 			timesWorkedSinceLast: string,
