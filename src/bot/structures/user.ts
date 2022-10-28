@@ -10,7 +10,7 @@ import { UserGemManager } from '../managers/User/GemManager';
 /**
  * Base UserModule for managing user data
  */
-class UserModule {
+export class UserModule {
 	readonly userId: string;
 	readonly bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>;
 	model:
@@ -48,7 +48,7 @@ class UserModule {
  * UserModule without any model.
  * @abstract
  */
-abstract class FreshUserModule extends UserModule {
+export abstract class FreshUserModule extends UserModule {
 	/**
 	 * Fetch this users data from database
 	 * @returns {void}
@@ -66,26 +66,26 @@ abstract class FreshUserModule extends UserModule {
  * UserModule with model fetched and ready for managing.
  * @abstract
  */
-abstract class HydratedUserModule extends UserModule {
+export abstract class HydratedUserModule extends UserModule {
 	override readonly model!: Document<unknown, any, IUser> &
 		IUser & {
 			_id: Types.ObjectId;
 		};
 
 	get coins(): UserCoinManager {
-		return new UserCoinManager(this.bot, this.userId, this.model);
+		return new UserCoinManager(this.bot, this.userId, this.model, this);
 	}
 
 	get gems(): UserGemManager {
-		return new UserGemManager(this.bot, this.userId, this.model);
+		return new UserGemManager(this.bot, this.userId, this.model, this);
 	}
 
 	get level(): UserLevelManager {
-		return new UserLevelManager(this.bot, this.userId, this.model);
+		return new UserLevelManager(this.bot, this.userId, this.model, this);
 	}
 
 	get health(): UserHealthManager {
-		return new UserHealthManager(this.bot, this.userId, this.model);
+		return new UserHealthManager(this.bot, this.userId, this.model, this);
 	}
 
 	/**

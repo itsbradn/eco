@@ -3,6 +3,7 @@ import { BotWithHelpersPlugin } from "discordeno/helpers-plugin";
 import { Document, Types } from "mongoose";
 import { IUser } from "../../../db/types/user";
 import { BotWithCustomProps } from "../../bot";
+import { HydratedUserModule } from "../../structures";
 
 
 /**
@@ -16,6 +17,7 @@ import { BotWithCustomProps } from "../../bot";
 		IUser & {
 			_id: Types.ObjectId;
 		};
+	userModule: HydratedUserModule
 
 	constructor(
 		bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>,
@@ -24,10 +26,12 @@ import { BotWithCustomProps } from "../../bot";
 			IUser & {
 				_id: Types.ObjectId;
 			},
+			userModule: HydratedUserModule
 	) {
 		this.bot = bot;
 		this.userId = userId;
 		this.model = model;
+		this.userModule = userModule;
 	}
 
 	/**
