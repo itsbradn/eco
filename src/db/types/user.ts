@@ -74,8 +74,8 @@ export interface IUser {
 		lastWorkedAt?: Date,
 		job: jobType,
 		raise: {
-			level: string,
-			timesWorkedSinceLast: string,
+			level: number,
+			timesWorkedSinceLast: number,
 			lastRaiseAt?: Date,
 		},
 	},
