@@ -71,6 +71,7 @@ export interface IUser {
 		timesWorked: number,
 		timesSick: number,
 		timesFired: number,
+		timesPerfect: number,
 		lastWorkedAt?: Date,
 		job: jobType,
 		raise: {

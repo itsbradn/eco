@@ -221,6 +221,13 @@ export const userSchema = new Schema<IUser>({
 			validate: validateInteger,
 			default: 0,
 		},
+		timesPerfect: {
+			type: Number,
+			get: (v: number) => Math.round(v),
+			set: (v: number) => Math.round(v),
+			validate: validateInteger,
+			default: 0,
+		},
 		lastWorkedAt: Date,
 		job: {
 			type: String,
