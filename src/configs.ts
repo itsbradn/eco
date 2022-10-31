@@ -18,7 +18,6 @@ export const USER_SCHEMA_VER = process.env.USER_SCHEMA_VER ?? 1
 // Gateway Proxy Configurations
 /** The gateway intents you would like to use. */
 export const INTENTS: Intents =
-	// SETUP-DD-TEMP: Add the intents you want enabled here. Or Delete the intents you don't want in your bot.
 	Intents.DirectMessageReactions |
 	Intents.DirectMessageTyping |
 	Intents.DirectMessages |

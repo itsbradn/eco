@@ -9,6 +9,7 @@ import { BOT_ID, EVENT_HANDLER_URL } from "../configs.js";
 import { bot } from "./bot.js";
 import { updateDevCommands } from "./utils/slash/updateCommands.js";
 import { webhookURLToIDAndToken } from "./utils/webhook.js";
+import { connectToDb } from "../db/index.js";
 
 const BUGS_ERRORS_REPORT_WEBHOOK = process.env.BUGS_ERRORS_REPORT_WEBHOOK;
 const DEVELOPMENT = process.env.DEVELOPMENT as string;
@@ -115,5 +116,6 @@ app.all("/", async (req, res) => {
 });
 
 app.listen(EVENT_HANDLER_PORT, () => {
+  connectToDb();
   console.log(`Bot is listening at ${EVENT_HANDLER_URL};`);
 });
