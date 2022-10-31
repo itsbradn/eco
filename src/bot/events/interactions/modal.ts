@@ -1,5 +1,6 @@
 import { Interaction } from "discordeno";
 import { BotWithCustomProps } from "../../bot.js";
+import { processInteractionCollectors } from "../../utils/collectors.js";
 
 export async function executeModalSubmit(bot: BotWithCustomProps, interaction: Interaction) {
   if (!interaction.data) return;
@@ -12,5 +13,6 @@ export async function executeModalSubmit(bot: BotWithCustomProps, interaction: I
 
   await Promise.allSettled([
     // SETUP-DD-TEMP: Insert any functions you wish to run when a user clicks a button.
+    processInteractionCollectors(interaction)
   ]).catch(console.log);
 }
