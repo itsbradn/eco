@@ -18,6 +18,11 @@ const english = {
   PING_DESCRIPTION: "🏓 Check whether the bot is online and responsive.",
   PING_RESPONSE: "🏓 Pong! I am online and responsive! :clock10:",
   PING_RESPONSE_WITH_TIME: (time: number) => `🏓 Pong! ${time / 1000} seconds! I am online and responsive! :clock10:`,
+
+  // Work Command
+  WORK_NAME: "work",
+  WORK_DESCRIPTION: "💼 Work for some extra cash!",
+  WORK_NO_CHANNEL: "You can't work in DM's weirdo!",
 } as const;
 
 export default english;
