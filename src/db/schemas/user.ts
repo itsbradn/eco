@@ -174,6 +174,24 @@ export const userSchema = new Schema<IUser>({
 				default: [],
 			},
 		},
+		cooldowns: {
+			type: [
+				{
+					name: String,
+					endsAt: Date,
+					lastSetAt: Date,
+					history: {
+						type: [
+							{
+								name: String,
+								setAt: Date,
+								expiredAt: Date,
+							}
+						]
+					}
+				}
+			]
+		}
 	},
 	work: {
 		pastAnswers: {

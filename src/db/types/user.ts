@@ -51,6 +51,20 @@ export interface IUser {
 			maxActive: number,
 			active: string[],
 		},
+		cooldowns: [
+				{
+					name: string,
+					endsAt: Date,
+					lastSetAt: Date,
+					history: [
+							{
+								name: string,
+								setAt: Date,
+								expiredAt: Date,
+							}
+						]
+				}
+			]
 	},
 	work: {
 		pastAnswers: [
