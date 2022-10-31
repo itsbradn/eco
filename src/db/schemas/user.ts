@@ -5,11 +5,11 @@ import { validateAddOrDel, validateCurrency, validateInteger, validatePetModifie
 export const userSchema = new Schema<IUser>({
 	user: {
 		id: {
-			Type: String,
+			type: String,
 			required: true,
 		},
 		firstCommandAt: {
-			Type: Date,
+			type: Date,
 			default: new Date(Date.now()),
 		},
 		lastUsed: {
