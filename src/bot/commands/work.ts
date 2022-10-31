@@ -1,11 +1,11 @@
-import { sendInteractionResponse, sendMessage, Interaction } from 'discordeno';
+import { sendInteractionResponse, Interaction } from 'discordeno';
 import { InteractionResponseTypes, MessageComponentTypes, TextStyles } from 'discordeno/types';
 import { bot } from '../bot.js';
 import { jobs } from '../data/jobs/index.js';
 import { wordList } from '../data/lists/words.js';
 import { translate } from '../languages/translate.js';
 import { UserModule } from '../structures/user.js';
-import { needMessage, needModalResponse } from '../utils/collectors.js';
+import { needModalResponse } from '../utils/collectors.js';
 import { createCommand } from '../utils/slash/createCommand.js';
 
 export default createCommand({
