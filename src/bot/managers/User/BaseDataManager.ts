@@ -3,7 +3,7 @@ import { BotWithHelpersPlugin } from "discordeno/helpers-plugin";
 import { Document, Types } from "mongoose";
 import { IUser } from "../../../db/types/user";
 import { BotWithCustomProps } from "../../bot";
-import { HydratedUserModule } from "../../structures";
+import { UserModule } from "../../structures";
 
 
 /**
@@ -11,22 +11,22 @@ import { HydratedUserModule } from "../../structures";
  * @abstract
  */
  export abstract class UserDataManager {
-	readonly userId: string;
+	readonly userId: bigint;
 	readonly bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>;
 	readonly model: Document<unknown, any, IUser> &
 		IUser & {
 			_id: Types.ObjectId;
 		};
-	userModule: HydratedUserModule
+	userModule: UserModule
 
 	constructor(
 		bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>,
-		userId: string,
+		userId: bigint,
 		model: Document<unknown, any, IUser> &
 			IUser & {
 				_id: Types.ObjectId;
 			},
-			userModule: HydratedUserModule
+			userModule: UserModule
 	) {
 		this.bot = bot;
 		this.userId = userId;

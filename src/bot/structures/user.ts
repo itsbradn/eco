@@ -6,71 +6,21 @@ import { IUser } from '../../db/types/user';
 import { Document, Types } from 'mongoose';
 import { UserCoinManager, UserHealthManager, UserLevelManager } from '../managers/User';
 import { UserGemManager } from '../managers/User/GemManager';
+import { UserWorkManager } from '../managers/User/WorkManager';
 
-/**
- * Base UserModule for managing user data
- */
 export class UserModule {
-	readonly userId: string;
-	readonly bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>;
-	model:
-		| (Document<unknown, any, IUser> &
-				IUser & {
-					_id: Types.ObjectId;
-				})
-		| undefined;
-
-	constructor(bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>, userId: string) {
-		this.bot = bot;
-		this.userId = userId;
-	}
-
-	/**
-	 * Indicated whether this user module is a {@link HydratedUserModule}
-	 * @returns {boolean}
-	 */
-	isHydrated(): this is HydratedUserModule {
-		if (this.model === undefined) false;
-		return true;
-	}
-
-	/**
-	 * Indicated whether this user module is a {@link FreshUserModule}
-	 * @returns {boolean}
-	 */
-	isFresh(): this is FreshUserModule {
-		if (this.model === undefined) true;
-		return false;
-	}
-}
-
-/**
- * UserModule without any model.
- * @abstract
- */
-export abstract class FreshUserModule extends UserModule {
-	/**
-	 * Fetch this users data from database
-	 * @returns {void}
-	 */
-	async fetch(): Promise<void> {
-		let model = await userModel.findOne({ 'user.id': this.userId });
-		if (!model) model = await userModel.create({ 'user.id': this.userId });
-		this.model = model;
-
-		return;
-	}
-}
-
-/**
- * UserModule with model fetched and ready for managing.
- * @abstract
- */
-export abstract class HydratedUserModule extends UserModule {
-	override readonly model!: Document<unknown, any, IUser> &
-		IUser & {
-			_id: Types.ObjectId;
-		};
+		readonly userId: bigint;
+		readonly bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>;
+		model!:
+			| (Document<unknown, any, IUser> &
+					IUser & {
+						_id: Types.ObjectId;
+					});
+	
+		constructor(bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>, userId: bigint) {
+			this.bot = bot;
+			this.userId = userId;
+		}
 
 	get coins(): UserCoinManager {
 		return new UserCoinManager(this.bot, this.userId, this.model, this);
@@ -88,6 +38,10 @@ export abstract class HydratedUserModule extends UserModule {
 		return new UserHealthManager(this.bot, this.userId, this.model, this);
 	}
 
+	get work(): UserWorkManager {
+		return new UserWorkManager(this.bot, this.userId, this.model, this);
+	}
+
 	/**
 	 * Saves user data to database
 	 */
@@ -98,5 +52,17 @@ export abstract class HydratedUserModule extends UserModule {
 			}
 	> {
 		return await this.model.save();
+	}
+
+	/**
+	 * Fetch this users data from database
+	 * @returns {void}
+	 */
+	async fetch(): Promise<void> {
+		let model = await userModel.findOne({ 'user.id': this.userId });
+		if (!model) model = await userModel.create({ 'user.id': this.userId });
+		this.model = model;
+
+		return;
 	}
 }
