@@ -1,5 +1,4 @@
 import { ApplicationCommandOptionTypes } from "discordeno";
-import { prisma } from "../../prisma.js";
 import languages from "../languages/languages.js";
 import { serverLanguages, translate } from "../languages/translate.js";
 import { createCommand } from "../utils/slash/createCommand.js";
@@ -24,10 +23,10 @@ export default createCommand({
     // Let the user know its been updated.
     await interaction.reply(translate(interaction.guildId!, "LANGUAGE_UPDATED", args.name));
     // Update the db
-    return await prisma.guilds.upsert({
-      where: { id: interaction.guildId },
-      create: { language: args.name, id: interaction.guildId },
-      update: { language: args.name },
-    });
+    // return await prisma.guilds.upsert({
+    //   where: { id: interaction.guildId },
+    //   create: { language: args.name, id: interaction.guildId },
+    //   update: { language: args.name },
+    // });
   },
 });
