@@ -6,6 +6,7 @@ import { wordList } from '../data/lists/words.js';
 import { translate } from '../languages/translate.js';
 import { UserModule } from '../structures/user.js';
 import { needModalResponse } from '../utils/collectors.js';
+import { checkCooldown } from '../utils/cooldowns.js';
 import { createCommand } from '../utils/slash/createCommand.js';
 
 export default createCommand({
@@ -27,8 +28,12 @@ export default createCommand({
 			});
 		}
 
+
 		const user: UserModule = new UserModule(bot, interaction.user.id);
 		await user.fetch();
+
+		const cd = checkCooldown(interaction, 'work', user)
+		if (cd) return;
 
 		let word = wordList[Math.floor(Math.random() * wordList.length)];
 
@@ -80,6 +85,7 @@ export default createCommand({
 		const job = jobs[user.work.job];
 
 		if (result.status === 'failed') {
+			user.cooldowns.set('work', 20);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
@@ -97,6 +103,7 @@ export default createCommand({
 		if (result.status === 'success') {
 			const pay = user.work.pay;
 			user.coins.add(pay, 'Successful Work', 'Work Command');
+			user.cooldowns.set('work', 20);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
@@ -114,6 +121,7 @@ export default createCommand({
 		if (result.status === 'perfect') {
 			const pay = user.work.perfectPay;
 			user.coins.add(pay, 'Perfect Work', 'Work Command');
+			user.cooldowns.set('work', 20);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
@@ -129,6 +137,7 @@ export default createCommand({
 			});
 		}
 		if (result.status === 'sick') {
+			user.cooldowns.set('work', 300);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
@@ -144,6 +153,7 @@ export default createCommand({
 			});
 		}
 		if (result.status === 'fired') {
+			user.cooldowns.set('work', 20);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
