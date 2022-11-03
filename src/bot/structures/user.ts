@@ -7,6 +7,7 @@ import { Document, Types } from 'mongoose';
 import { UserCoinManager, UserHealthManager, UserLevelManager } from '../managers/User';
 import { UserGemManager } from '../managers/User/GemManager';
 import { UserWorkManager } from '../managers/User/WorkManager';
+import { UserCooldownManager } from '../managers/User/CooldownManager';
 
 export class UserModule {
 		readonly userId: bigint;
@@ -40,6 +41,10 @@ export class UserModule {
 
 	get work(): UserWorkManager {
 		return new UserWorkManager(this.bot, this.userId, this.model, this);
+	}
+
+	get cooldowns(): UserCooldownManager {
+		return new UserCooldownManager(this.bot, this.userId, this.model, this);
 	}
 
 	/**
