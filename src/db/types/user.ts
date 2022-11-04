@@ -1,3 +1,4 @@
+import { itemType } from '../../bot/data/items';
 import { jobType } from '../../bot/data/jobs';
 
 export interface IUser {
@@ -24,7 +25,7 @@ export interface IUser {
 	storage: {
 		items: [
 			{
-				name: string;
+				name: itemType;
 				amount: number;
 			},
 		];
