@@ -6,7 +6,7 @@ import {
 import { bot } from '../bot.js';
 import { randomInt } from "crypto"
 import { items, itemType } from '../data/items/index.js';
-import { BoxItemData, Item } from '../structures/item.js';
+import { BoxItemData, BoxOpenLocations, Item } from '../structures/item.js';
 import { UserModule } from '../structures/user.js';
 import { createCommand } from '../utils/slash/createCommand.js';
 
@@ -60,6 +60,36 @@ export default createCommand({
 						{
 							title: `🚫 Sorry no free presents here.`,
 							description: `You don't have any of that present in your inventory!`,
+							color: bot.colors.error,
+						},
+					],
+				},
+			});
+		}
+
+		if (itemChosen.value.box.openAt !== BoxOpenLocations.Personal) {
+			return sendInteractionResponse(bot, interaction.id, interaction.token, {
+				type: InteractionResponseTypes.ChannelMessageWithSource,
+				data: {
+					embeds: [
+						{
+							title: `🚫 You can't open this kind of present!`,
+							description: `This command only lets you open personal presents.`,
+							color: bot.colors.error,
+						},
+					],
+				},
+			});
+		}
+
+		if (itemChosen.value.box.levelRequirement < user.level.level) {
+			return sendInteractionResponse(bot, interaction.id, interaction.token, {
+				type: InteractionResponseTypes.ChannelMessageWithSource,
+				data: {
+					embeds: [
+						{
+							title: `🚫 You need more experience to open this gift...`,
+							description: `You need to be level ${itemChosen.value.box.levelRequirement} to open this box!`,
 							color: bot.colors.error,
 						},
 					],
