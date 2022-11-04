@@ -8,6 +8,7 @@ import { UserCoinManager, UserHealthManager, UserLevelManager } from '../manager
 import { UserGemManager } from '../managers/User/GemManager';
 import { UserWorkManager } from '../managers/User/WorkManager';
 import { UserCooldownManager } from '../managers/User/CooldownManager';
+import { UserInventoryManager } from '../managers/User/InventoryManager';
 
 export class UserModule {
 		readonly userId: bigint;
@@ -45,6 +46,10 @@ export class UserModule {
 
 	get cooldowns(): UserCooldownManager {
 		return new UserCooldownManager(this.bot, this.userId, this.model, this);
+	}
+
+	get inventory(): UserInventoryManager {
+		return new UserInventoryManager(this.bot, this.userId, this.model, this);
 	}
 
 	/**
