@@ -7,6 +7,7 @@ import { translate } from '../languages/translate.js';
 import { UserModule } from '../structures/user.js';
 import { needModalResponse } from '../utils/collectors.js';
 import { checkCooldown } from '../utils/cooldowns.js';
+import { percentChance } from '../utils/number.js';
 import { createCommand } from '../utils/slash/createCommand.js';
 
 export default createCommand({
@@ -28,11 +29,10 @@ export default createCommand({
 			});
 		}
 
-
 		const user: UserModule = new UserModule(bot, interaction.user.id);
 		await user.fetch();
 
-		const cd = checkCooldown(interaction, 'work', user)
+		const cd = checkCooldown(interaction, 'work', user);
 		if (cd) return;
 
 		let word = wordList[Math.floor(Math.random() * wordList.length)];
@@ -103,6 +103,12 @@ export default createCommand({
 		if (result.status === 'success') {
 			const pay = user.work.pay;
 			user.coins.add(pay, 'Successful Work', 'Work Command');
+			const rewards = {
+				name: '🎁 Rewards',
+				value: `🪙 +${pay} coins\n`,
+			};
+			if (result.didLevelUp) rewards.value += `⭐ Leveled Up!\n`;
+			if (result.gotRaise) rewards.value += `💼 You got a raise!\n`;
 			user.cooldowns.set('work', 20);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
@@ -113,6 +119,7 @@ export default createCommand({
 							title: 'Good job! 🎊',
 							description: job.messages['good'][Math.floor(Math.random() * job.messages['good'].length)],
 							color: bot.colors.success,
+							fields: [rewards],
 						},
 					],
 				},
@@ -121,6 +128,16 @@ export default createCommand({
 		if (result.status === 'perfect') {
 			const pay = user.work.perfectPay;
 			user.coins.add(pay, 'Perfect Work', 'Work Command');
+			const rewards = {
+				name: '🎁 Rewards',
+				value: `🪙 +${pay} coins\n`,
+			};
+			if (result.didLevelUp) rewards.value += `⭐ Leveled Up!\n`;
+			if (result.gotRaise) rewards.value += `💼 You got a raise!\n`;
+			if (percentChance(10)) {
+				user.inventory.add('CheapPresent', 1);
+				rewards.value += `🎁 +1 Cheap Present\n`;
+			}
 			user.cooldowns.set('work', 20);
 			await user.save();
 			return sendInteractionResponse(bot, modalResponse.id, modalResponse.token, {
@@ -131,6 +148,7 @@ export default createCommand({
 							title: 'Amazing Job! 🎊',
 							description: job.messages['perfect'][Math.floor(Math.random() * job.messages['perfect'].length)],
 							color: bot.colors.success,
+							fields: [rewards],
 						},
 					],
 				},
@@ -160,7 +178,7 @@ export default createCommand({
 				data: {
 					embeds: [
 						{
-							title: 'You\'re fired! 🔥',
+							title: "You're fired! 🔥",
 							description: job.messages['bad'][Math.floor(Math.random() * job.messages['bad'].length)],
 							color: bot.colors.error,
 						},
