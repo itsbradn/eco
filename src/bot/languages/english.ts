@@ -23,6 +23,12 @@ const english = {
   WORK_NAME: "work",
   WORK_DESCRIPTION: "💼 Work for some extra cash!",
   WORK_NO_CHANNEL: "You can't work in DM's weirdo!",
+
+  // Open Command
+  OPEN_NAME: "open",
+  OPEN_DESCRIPTION: "Open any personal gifts you've recieved!",
+  OPEN_KEY_NAME: 'box',
+  OPEN_KEY_DESCRIPTION: "What box would you like to open up?",
 } as const;
 
 export default english;
