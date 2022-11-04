@@ -7,7 +7,7 @@ export const CheapPresent: Item = {
 	category: 'Boxes',
 	box: {
 		levelRequirement: 0,
-		openAt: BoxOpenLocations.Any,
+		openAt: BoxOpenLocations.Personal,
 		items: [
 			{
 				item: 'Pebble',

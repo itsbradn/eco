@@ -80,12 +80,12 @@ interface BoxData {
 }
 
 export enum BoxOpenLocations {
-	Any,
+	Personal,
 	Blacksmith,
 	Fisherman,
 }
 
-interface BoxItemData {
+export interface BoxItemData {
 	chance: number;
 	minAmount: number;
 	maxAmount: number;
