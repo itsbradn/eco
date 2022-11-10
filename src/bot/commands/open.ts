@@ -82,7 +82,7 @@ export default createCommand({
 			});
 		}
 
-		if (itemChosen.value.box.levelRequirement < user.level.level) {
+		if (itemChosen.value.box.levelRequirement > user.level.level) {
 			return sendInteractionResponse(bot, interaction.id, interaction.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
 				data: {
@@ -101,6 +101,7 @@ export default createCommand({
 		const chosenAmount = randomInt(chosenItem.minAmount, chosenItem.maxAmount + 1);
 		const chosenItemValue = items[chosenItem.item];
 
+		user.inventory.del(itemChosen.key, 1);
 		user.inventory.add(chosenItem.item, chosenAmount);
 		await user.save();
 
