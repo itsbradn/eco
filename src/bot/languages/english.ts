@@ -26,9 +26,17 @@ const english = {
 
   // Open Command
   OPEN_NAME: "open",
-  OPEN_DESCRIPTION: "Open any personal gifts you've recieved!",
+  OPEN_DESCRIPTION: "🎁 Open any personal gifts you've recieved!",
   OPEN_KEY_NAME: 'box',
   OPEN_KEY_DESCRIPTION: "What box would you like to open up?",
+
+  PROFILE_NAME: 'profile',
+  PROFILE_DESCRIPTION: '👜 See your profile including balance, stats, and more!',
+
+  CRAFT_NAME: 'craft',
+  CRAFT_DESCRIPTION: '🔨 Craft items to progress.',
+  CRAFT_KEY_NAME: 'item',
+  CRAFT_KEY_DESCRIPTION: 'What item would you like to craft?',
 } as const;
 
 export default english;
