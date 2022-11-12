@@ -1,10 +1,7 @@
 import { sendInteractionResponse } from 'discordeno';
-import {
-	ApplicationCommandOptionTypes,
-	InteractionResponseTypes,
-} from 'discordeno/types';
+import { ApplicationCommandOptionTypes, InteractionResponseTypes } from 'discordeno/types';
 import { bot } from '../bot.js';
-import { randomInt } from "crypto"
+import { randomInt } from 'crypto';
 import { items, itemType } from '../data/items/index.js';
 import { BoxItemData, BoxOpenLocations, Item } from '../structures/item.js';
 import { UserModule } from '../structures/user.js';
@@ -113,9 +110,9 @@ export default createCommand({
 						title: `🎊 Enjoy your present!`,
 						description: `You got ${chosenAmount}x ${chosenItemValue.name}!`,
 						color: bot.colors.success,
-					}
-				]
-			}
+					},
+				],
+			},
 		});
 	},
 });
@@ -125,19 +122,19 @@ export function snowflakeToTimestamp(id: bigint) {
 	return Number(id / 4194304n + 1420070400000n);
 }
 
-export function weightedRandomItem(array: BoxItemData[]) {
+function weightedRandomItem(array: BoxItemData[]) {
 	var i;
 
 	const weights: number[] = [];
 
 	for (i = 0; i < array.length; i++) {
-		weights[i] = array[i]?.chance ?? 0 + (weights[i - 1] || 0) 
+		weights[i] = (array[i]?.chance ?? 0) + (weights[i - 1] ?? 0);
 	}
 
 	var random = Math.random() * (weights[weights.length - 1] || 0);
 
 	for (i = 0; i < weights.length; i++) {
-		if (weights[i] || 0 > random) break;
+		if ((weights[i] || 0) > random) break;
 	}
 
 	const result = array[i];
