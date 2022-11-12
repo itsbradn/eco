@@ -9,14 +9,21 @@ import { createCommand } from '../utils/slash/createCommand.js';
 export default createCommand({
 	name: 'CRAFT_NAME',
 	description: 'CRAFT_DESCRIPTION',
-	options: [
+	options:  [
 		{
 			name: 'CRAFT_KEY_NAME',
 			description: 'CRAFT_KEY_DESCRIPTION',
 			type: ApplicationCommandOptionTypes.String,
+			required: true,
 		},
-	],
-	execute: async function (_, interaction,args) {
+		{
+			name: 'CRAFT_KEY_NAME_2',
+			description: 'CRAFT_KEY_DESCRIPTION_2',
+			type: ApplicationCommandOptionTypes.Integer,
+			required: false,
+		},
+	] as const,
+	execute: async function (_, interaction, args) {
 		const itemKeys = Object.keys(items);
 		const itemValues = Object.values(items);
 		const itemArray: { key: itemType; value: Item }[] = [];
@@ -27,9 +34,9 @@ export default createCommand({
 			if (itemValue.crafting === undefined) continue;
 			itemArray.push({ key: itemKey as itemType, value: itemValue });
 		}
-        
+
 		const itemChosen = itemArray.find((v) => args.item?.toLowerCase() === v.value.name.toLowerCase());
-        
+
 		if (!itemChosen || !itemChosen.value.crafting) {
 			return sendInteractionResponse(bot, interaction.id, interaction.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
@@ -45,8 +52,8 @@ export default createCommand({
 			});
 		}
 
-        const user = new UserModule(bot, interaction.user.id);
-        await user.fetch();
+		const user = new UserModule(bot, interaction.user.id);
+		await user.fetch();
 
 		if (itemChosen.value.crafting.levelRequirement > user.level.level) {
 			return sendInteractionResponse(bot, interaction.id, interaction.token, {
@@ -63,17 +70,18 @@ export default createCommand({
 			});
 		}
 
-        let hasRequirements = true;
+		let hasRequirements = true;
 
-        for (const item of itemChosen.value.crafting.itemRequirements) {
-            if (user.inventory.get(item.item) < item.amount) {
-                hasRequirements = false;
-                break;
-            }
-            continue;
-        }
+		for (const item of itemChosen.value.crafting.itemRequirements) {
+			const reqAmount = args.amount ? item.amount * Math.floor(args.amount) : item.amount;
+			if (user.inventory.get(item.item) < reqAmount) {
+				hasRequirements = false;
+				break;
+			}
+			continue;
+		}
 
-        if (!hasRequirements) {
+		if (!hasRequirements) {
 			return sendInteractionResponse(bot, interaction.id, interaction.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
 				data: {
@@ -86,28 +94,30 @@ export default createCommand({
 					],
 				},
 			});
-        }
+		}
 
-        for (const item of itemChosen.value.crafting.itemRequirements) {
-            user.inventory.del(item.item, item.amount);
-            continue;
-        }
-        
-        user.inventory.add(itemChosen.key, 1);
+		for (const item of itemChosen.value.crafting.itemRequirements) {
+			const reqAmount = args.amount ? item.amount * Math.floor(args.amount) : item.amount;
+			user.inventory.del(item.item, reqAmount);
+			continue;
+		}
 
-        
-			return sendInteractionResponse(bot, interaction.id, interaction.token, {
-				type: InteractionResponseTypes.ChannelMessageWithSource,
-				data: {
-					embeds: [
-						{
-							title: `Good work! ✔️`,
-							description: `You just crafted 1x ${itemChosen.value.name}!`,
-							color: bot.colors.success,
-						},
-					],
-				},
-			});
+		user.inventory.add(itemChosen.key, 1);
+
+		await user.save();
+
+		return sendInteractionResponse(bot, interaction.id, interaction.token, {
+			type: InteractionResponseTypes.ChannelMessageWithSource,
+			data: {
+				embeds: [
+					{
+						title: `Good work! ✔️`,
+						description: `You just crafted ${Math.floor(args.amount ?? 1)}x ${itemChosen.value.name}!`,
+						color: bot.colors.success,
+					},
+				],
+			},
+		});
 	},
 });
 
