@@ -5,6 +5,16 @@ export const Stone: Item = {
 	emoji: '🪨',
 	description: 'A stone found in the wilderness.',
 	category: 'Materials',
+	obtainable: {
+		mining: {
+			chance: 20,
+			powerNeeded: 1,
+			minAmount: 16,
+			maxAmount: 22,
+			minHealth: 3,
+			maxHealth: 5,
+		}
+	},
 	crafting: {
 		levelRequirement: 0,
 		itemRequirements: [
