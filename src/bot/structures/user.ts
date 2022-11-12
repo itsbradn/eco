@@ -4,7 +4,7 @@ import { BotWithCustomProps } from '../bot';
 import { userModel } from '../../db/schemas';
 import { IUser } from '../../db/types/user';
 import { Document, Types } from 'mongoose';
-import { UserCoinManager, UserHealthManager, UserLevelManager } from '../managers/User';
+import { UserCoinManager, UserHealthManager, UserLevelManager, UserMineManager } from '../managers/User';
 import { UserGemManager } from '../managers/User/GemManager';
 import { UserWorkManager } from '../managers/User/WorkManager';
 import { UserCooldownManager } from '../managers/User/CooldownManager';
@@ -50,6 +50,10 @@ export class UserModule {
 
 	get inventory(): UserInventoryManager {
 		return new UserInventoryManager(this.bot, this.userId, this.model, this);
+	}
+
+	get mine(): UserMineManager {
+		return new UserMineManager(this.bot, this.userId, this.model, this);
 	}
 
 	/**

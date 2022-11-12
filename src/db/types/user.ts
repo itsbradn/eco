@@ -96,16 +96,16 @@ export interface IUser {
 		mineHistory:
 			{
 				at: Date;
-				material: string;
+				material: itemType;
 				damageDone: number;
 				gotArtifact: boolean;
 				gotFossil: boolean;
 				brokeOre: boolean;
 				brokePickaxe: boolean;
 				pickaxeUsed: string;
-				pickaxeUses: number;
+				pickaxeUsesSinceLast: number;
 				chiselUsed: string;
-				chiselUses: number;
+				chiselUsesSinceLast: number;
 				materialGained: number;
 				expGained: number;
 				didLevelUp: boolean;
@@ -113,21 +113,22 @@ export interface IUser {
 		timesMined: number;
 		timesMinedWithPickaxe: 
 			{
-				name: string;
+				name: itemType;
 				timesUsed: number;
 			}[],
 		timesMinedOre:
 			{
-				name: string;
+				name: itemType;
 				timesMined: number;
 				amountMined: number;
 			}[],
 		lastMinedAt?: Date;
 		lastPickaxeBrokeAt?: Date;
 		timesMinedSinceLastPickaxeBroke: number;
+		timesMinedSinceLastChiselBroke: number;
 		pickaxesBroken: 
 			{
-				name: string;
+				name: itemType;
 				timesBroke: number;
 			}[]
 		artifactsFound: number;

@@ -178,12 +178,10 @@ export interface InteractionCollectorOptions extends BaseCollectorOptions {
 
 export function processInteractionCollectors(interaction: Interaction) {
 	const collector = bot.collectors.interactions.get(interaction.user.id);
-	if (!collector) return console.log('NO COLLECTOR FOUND');
-	console.log('COLLECTOR FOUND');
+	if (!collector) return ;
 	if (!collector.filter(interaction)) return;
 	if (collector.amount === 1 || collector.amount === collector.interactions.length + 1) {
 		bot.collectors.interactions.delete(interaction.user.id);
-
 		return collector.resolve([...collector.interactions, interaction]);
 	}
 
