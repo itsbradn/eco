@@ -7,7 +7,15 @@ export interface Item {
 	category: string;
 	tool?: ToolData;
 	obtainable?: {
-		artifact: false | number;
+		artifact?: number;
+		mining?: {
+			chance: number;
+			powerNeeded: number;
+			minAmount: number;
+			maxAmount: number;
+			minHealth: number;
+			maxHealth: number;
+		};
 	};
 	rune?: RuneData;
 	box?: BoxData;
