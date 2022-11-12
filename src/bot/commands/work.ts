@@ -20,7 +20,7 @@ export default createCommand({
 				data: {
 					embeds: [
 						{
-							title: `Are you lost?`,
+							title: `🧭 Are you lost?`,
 							description: translate(interaction.guildId || 'english', 'WORK_NO_CHANNEL'),
 							color: bot.colors.error,
 						},
