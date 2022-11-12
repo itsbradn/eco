@@ -90,6 +90,7 @@ interface BoxData {
 export enum BoxOpenLocations {
 	Personal,
 	Blacksmith,
+	Archeologist,
 	Fisherman,
 }
 

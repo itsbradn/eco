@@ -65,12 +65,54 @@ export default createCommand({
 		}
 
 		if (itemChosen.value.box.openAt !== BoxOpenLocations.Personal) {
+			if (itemChosen.value.box.openAt === BoxOpenLocations.Blacksmith) {
+				return sendInteractionResponse(bot, interaction.id, interaction.token, {
+					type: InteractionResponseTypes.ChannelMessageWithSource,
+					data: {
+						embeds: [
+							{
+								title: `🚫 You can't open this kind of present here!`,
+								description: `You can only open this present at the blacksmith. Do /Blacksmith`,
+								color: bot.colors.error,
+							},
+						],
+					},
+				});
+			}
+			if (itemChosen.value.box.openAt === BoxOpenLocations.Archeologist) {
+				return sendInteractionResponse(bot, interaction.id, interaction.token, {
+					type: InteractionResponseTypes.ChannelMessageWithSource,
+					data: {
+						embeds: [
+							{
+								title: `🚫 You can't open this kind of present here!`,
+								description: `You can only open this present at the blacksmith. Do /Archeologist`,
+								color: bot.colors.error,
+							},
+						],
+					},
+				});
+			}
+			if (itemChosen.value.box.openAt === BoxOpenLocations.Fisherman) {
+				return sendInteractionResponse(bot, interaction.id, interaction.token, {
+					type: InteractionResponseTypes.ChannelMessageWithSource,
+					data: {
+						embeds: [
+							{
+								title: `🚫 You can't open this kind of present here!`,
+								description: `You can only open this present at the blacksmith. Do /Fisherman`,
+								color: bot.colors.error,
+							},
+						],
+					},
+				});
+			}
 			return sendInteractionResponse(bot, interaction.id, interaction.token, {
 				type: InteractionResponseTypes.ChannelMessageWithSource,
 				data: {
 					embeds: [
 						{
-							title: `🚫 You can't open this kind of present!`,
+							title: `🚫 You can't open this kind of present here!`,
 							description: `This command only lets you open personal presents.`,
 							color: bot.colors.error,
 						},
