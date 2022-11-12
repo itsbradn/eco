@@ -1,4 +1,4 @@
-import { Item } from "../../../structures/item";
+import { Item } from '../../../structures/item';
 
 export const FlimsyPickaxe: Item = {
 	name: 'Flimsy Pickaxe',
@@ -7,7 +7,7 @@ export const FlimsyPickaxe: Item = {
 	category: 'Mining',
 	tool: {
 		type: 'pickaxe',
-		minDamage: 1,
+		minDamage: 2,
 		maxDamage: 3,
 		doubleDamageChance: 15,
 		power: 1,
@@ -26,6 +26,6 @@ export const FlimsyPickaxe: Item = {
 				item: 'Pebble',
 				amount: 9,
 			},
-		]
-	}
-}
+		],
+	},
+};
