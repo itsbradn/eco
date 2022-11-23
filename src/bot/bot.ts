@@ -36,6 +36,7 @@ function customizeBot<B extends Bot = Bot>(bot: B): BotWithCustomProps {
     interactions: new Collection(),
   };
   customized.commandVersions = new Collection();
+  customized.curGuilds = new Collection();
 
   return customized;
 }

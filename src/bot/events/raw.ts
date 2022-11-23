@@ -36,7 +36,7 @@ export function setRawEvent() {
 		//   bot.logger.info(`[Slash Setup] Installing Slash commands on Guild ${id} event type: ${data.t}`);
 		//   await updateGuildCommands(bot, id).catch(bot.logger.error);
 
-		if (bot.curGuilds.get(id)) return;
+		if (bot.curGuilds.has(id)) return;
 		await updateGuildCommands(bot, id).catch(bot.logger.error);
 	};
 }
