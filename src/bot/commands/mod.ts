@@ -5,7 +5,7 @@ import open from './open';
 import profile from './profile';
 import craft from './craft';
 import mine from './mine';
-import archeologist from './Archeologist.js';
+import archeologist from './archeologist.js';
 
 export const COMMANDS = {
 	// language,
@@ -15,7 +15,7 @@ export const COMMANDS = {
 	profile,
 	craft,
 	mine,
-	archeologist
+	archeologist,
 };
 
 export default COMMANDS;
