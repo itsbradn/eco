@@ -64,16 +64,6 @@ export async function updateCommandVersion(guildId: bigint): Promise<number> {
 	return CURRENT_SLASH_COMMAND_VERSION;
 }
 
-export async function updateGlobalCommands(bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>) {
-	bot.activeGuildIds.forEach(async (v) => {
-		try {
-			await updateGuildCommands(bot, v);
-		} catch (e) {
-			bot.logger.error("[SLASH] Couldn't update commands for guild " + v);
-		}
-	});
-}
-
 export async function updateGuildCommands(bot: Bot, guildId: bigint) {
 	// if (guildId === 547046977578336286n) return await updateDevCommands(bot);
 

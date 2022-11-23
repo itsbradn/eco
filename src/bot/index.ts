@@ -7,7 +7,7 @@ import { DiscordGatewayPayload } from 'discordeno';
 import express from 'express';
 import { BOT_ID, EVENT_HANDLER_URL } from '../configs.js';
 import { bot } from './bot.js';
-import { updateDevCommands, updateGlobalCommands, updateGuildCommands } from './utils/slash/updateCommands.js';
+import { updateDevCommands, updateGuildCommands } from './utils/slash/updateCommands.js';
 import { webhookURLToIDAndToken } from './utils/webhook.js';
 import { connectToDb } from '../db/index.js';
 
@@ -74,9 +74,6 @@ if (DEVELOPMENT) {
 	bot.logger.info(`[DEV MODE] Updating slash commands for dev server.`);
 	updateDevCommands(bot);
 	updateGuildCommands(bot, 780917217477918731n);
-} else {
-  updateGlobalCommands(bot);
-	bot.logger.info(`[PROD MODE] Updating slash commands for all servers.`);
 }
 
 const app = express();

@@ -61,6 +61,7 @@ export type BotWithCustomProps<B extends Bot = Bot> = B & {
   }
   /** The command versions for each guild id. */
   commandVersions: Collection<bigint, number>;
+  curGuilds: Collection<bigint, number>;
 };
 
 // Example of how to customize internal discordeno stuff easily.

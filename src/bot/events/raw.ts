@@ -8,13 +8,12 @@ import { updateGuildCommands, usesLatestCommandVersion } from "../utils/slash/up
 
 export function setRawEvent() {
   bot.events.raw = async function (_, data) {
-    return
-    if (data.t === "GUILD_DELETE") {
-      const id = (data.d as DiscordUnavailableGuild).id;
+  //   if (data.t === "GUILD_DELETE") {
+  //     const id = (data.d as DiscordUnavailableGuild).id;
 
-      // return await prisma.commands.delete({ where: { id: bot.transformers.snowflake(id) } });
-      return;
-    }
+  //     // return await prisma.commands.delete({ where: { id: bot.transformers.snowflake(id) } });
+  //     return;
+  //   }
 
     const id = bot.transformers.snowflake(
       (data.t && ["GUILD_UPDATE", "GUILD_CREATE"].includes(data.t)
@@ -24,17 +23,22 @@ export function setRawEvent() {
         : (data.d as any)?.guild_id) ?? "",
     );
 
-    // The GUILD_CREATE event came from a shard loaded event so ignore it
-    if (["READY", "GUILD_LOADED_DD", null].includes(data.t)) return;
+  //   // The GUILD_CREATE event came from a shard loaded event so ignore it
+  //   if (["READY", "GUILD_LOADED_DD", null].includes(data.t)) return;
 
-    // console.log({ id, v: await usesLatestCommandVersion(id) })
+  //   // console.log({ id, v: await usesLatestCommandVersion(id) })
 
-    if (!id || (await usesLatestCommandVersion(id))) return;
-    // dev guild
-    if (id === 547046977578336286n) return;
+  //   if (!id || (await usesLatestCommandVersion(id))) return;
+  //   // dev guild
+  //   if (id === 547046977578336286n) return;
 
-    // NEW GUILD AVAILABLE
-    bot.logger.info(`[Slash Setup] Installing Slash commands on Guild ${id} event type: ${data.t}`);
+  //   // NEW GUILD AVAILABLE
+  //   bot.logger.info(`[Slash Setup] Installing Slash commands on Guild ${id} event type: ${data.t}`);
+  //   await updateGuildCommands(bot, id).catch(bot.logger.error);
+    
+    if (bot.curGuilds.has(id)) return;
     await updateGuildCommands(bot, id).catch(bot.logger.error);
   };
+
+
 }
