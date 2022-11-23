@@ -1,5 +1,6 @@
 import { ApplicationCommandOption, ApplicationCommandTypes, Bot } from 'discordeno';
-import { bot } from '../../bot.js';
+import { BotWithHelpersPlugin } from 'discordeno/helpers-plugin';
+import { bot, BotWithCustomProps } from '../../bot.js';
 import COMMANDS from '../../commands/mod.js';
 import { serverLanguages, translate } from '../../languages/translate.js';
 import { ArgumentDefinition } from './createCommand.js';
@@ -63,9 +64,13 @@ export async function updateCommandVersion(guildId: bigint): Promise<number> {
 	return CURRENT_SLASH_COMMAND_VERSION;
 }
 
-export async function updateGlobalCommands(bot: Bot) {
+export async function updateGlobalCommands(bot: BotWithHelpersPlugin<BotWithCustomProps<Bot>>) {
 	bot.activeGuildIds.forEach(async (v) => {
-		await updateGuildCommands(bot, v);
+		try {
+			await updateGuildCommands(bot, v);
+		} catch (e) {
+			bot.logger.error("[SLASH] Couldn't update commands for guild " + v);
+		}
 	});
 }
 
@@ -137,10 +142,7 @@ function createOptions(
 			name: optionName.toLowerCase(),
 			description: optionDescription || 'No description available.',
 			choices,
-			options: option.options
-				?
-				  createOptions(guildId, option.options)
-				: undefined,
+			options: option.options ? createOptions(guildId, option.options) : undefined,
 		} as ApplicationCommandOption);
 	}
 	if (commandName) convertedCache.set(`${language}-${commandName}`, newOptions);

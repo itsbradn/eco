@@ -12,7 +12,7 @@ import { webhookURLToIDAndToken } from './utils/webhook.js';
 import { connectToDb } from '../db/index.js';
 
 const BUGS_ERRORS_REPORT_WEBHOOK = process.env.BUGS_ERRORS_REPORT_WEBHOOK;
-const DEVELOPMENT = process.env.DEVELOPMENT as string;
+const DEVELOPMENT: boolean = process.env.DEVELOPMENT === 'true';
 const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
 
