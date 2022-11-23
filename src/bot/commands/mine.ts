@@ -8,7 +8,7 @@ import {
 	InteractionTypes,
 } from 'discordeno/types';
 import { bot } from '../bot.js';
-import { itemArray, items, itemType } from '../data/items/index.js';
+import { itemArray, itemType } from '../data/items/index.js';
 import { translate } from '../languages/translate.js';
 import { Item } from '../structures/item.js';
 import { UserModule } from '../structures/user.js';
