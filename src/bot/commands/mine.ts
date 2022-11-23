@@ -8,7 +8,7 @@ import {
 	InteractionTypes,
 } from 'discordeno/types';
 import { bot } from '../bot.js';
-import { itemArray, itemType } from '../data/items/index.js';
+import { itemArray, items, itemType } from '../data/items/index.js';
 import { translate } from '../languages/translate.js';
 import { Item } from '../structures/item.js';
 import { UserModule } from '../structures/user.js';
@@ -202,6 +202,8 @@ export default createCommand({
 				if (mineData.gotFossil) {
 				} // ADD FOSSIL
 				if (mineData.gotArtifact) {
+					user.inventory.add('Artifact', 1);
+					rewards.value += `🪥 +1 Artifact`;
 				} // ADD ARTIFACT
 				if (mineData.brokePickaxe) penalties.value += `${pickaxe.emoji} ${pickaxe.name} broke!\n`;
 				if (mineData.didLevelUp) rewards.value += `🌟 +1 level!\n`;

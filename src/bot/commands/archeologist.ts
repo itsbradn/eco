@@ -163,6 +163,7 @@ export default createCommand({
 			const chosenAmount = randomInt(chosenItem.minAmount, chosenItem.maxAmount + 1);
 			const chosenItemValue = items[chosenItem.item];
 
+			user.coins.remove(1500, 'Opened up a ' + itemChosen.value.name, 'Archeologist');
 			user.inventory.del(itemChosen.key, 1);
 			user.inventory.add(chosenItem.item, chosenAmount);
 			await user.save();
