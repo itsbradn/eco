@@ -75,7 +75,7 @@ export async function updateGlobalCommands(bot: BotWithHelpersPlugin<BotWithCust
 }
 
 export async function updateGuildCommands(bot: Bot, guildId: bigint) {
-	if (guildId === 547046977578336286n) return await updateDevCommands(bot);
+	// if (guildId === 547046977578336286n) return await updateDevCommands(bot);
 
 	await updateCommandVersion(guildId);
 
