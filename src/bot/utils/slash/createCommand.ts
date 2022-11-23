@@ -20,12 +20,13 @@ export function createCommand<T extends readonly ArgumentDefinition[]>(command: 
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
 
-type Identity<T> = { [P in keyof T]: T[P] };
+export type Identity<T> = { [P in keyof T]: T[P] };
 
 // TODO: make required by default true
 // Define each of the types here
 type BaseDefinition = {
 	description: translationKeys;
+	options?: readonly ArgumentDefinition[];
 };
 
 // Subcommand

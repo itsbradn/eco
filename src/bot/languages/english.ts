@@ -43,6 +43,12 @@ const english = {
 	MINE_NAME: 'mine',
 	MINE_DESCRIPTION: '⛏️ Mine ores and stones to get materials!',
 	MINE_NO_CHANNEL: "You can't go mining in DM's! Go back into a server to continue.",
+
+	ARCHEOLOGIST_NAME: 'archeologist',
+	ARCHEOLOGIST_DESCRIPTION: '🏛️ Talk to the archeologist.',
+
+	ARCHEOLOGIST_SUB_OPEN_NAME: 'open',
+	ARCHEOLOGIST_SUB_OPEN_DESCRIPTION: '🎁 Have the archeologist open items for you. Costs 500 Coins',
 } as const;
 
 export default english;

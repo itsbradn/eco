@@ -1,5 +1,4 @@
 import { ApplicationCommandOption, ApplicationCommandTypes, Bot } from 'discordeno';
-// import { prisma } from "../../../prisma.js";
 import { bot } from '../../bot.js';
 import COMMANDS from '../../commands/mod.js';
 import { serverLanguages, translate } from '../../languages/translate.js';
@@ -9,11 +8,12 @@ const DEV_SERVER_ID = process.env.DEV_SERVER_ID as string;
 
 export async function updateDevCommands(bot: Bot) {
 	const cmds = Object.entries(COMMANDS)
+		// ONLY DEV COMMANDS
+		.filter(([_name, command]) => command?.dev);
 
 	if (!cmds.length) return;
 
 	// DEV RELATED COMMANDS, USE upsertGlobalApplicationCommands TO UPDATE GLOBALLY
-
 	await bot.helpers.upsertGuildApplicationCommands(
 		bot.transformers.snowflake(DEV_SERVER_ID),
 		cmds.map(([name, command]) => {
@@ -50,24 +50,17 @@ export async function usesLatestCommandVersion(guildId: bigint): Promise<boolean
 export async function getCurrentCommandVersion(guildId: bigint): Promise<number> {
 	if (bot.commandVersions.has(guildId)) return bot.commandVersions.get(guildId)!;
 
-	// const commandVersion = await prisma.commands.findUnique({ where: { id: guildId } });
-	// if (commandVersion) bot.commandVersions.set(guildId, commandVersion.version);
+	//   if (commandVersion) bot.commandVersions.set(guildId, commandVersion.version);
 
-	// return commandVersion?.version ?? 0;
+	//   return commandVersion?.version ?? 0;
 	return 0;
 }
 
-export async function updateCommandVersion(_guildId: bigint): Promise<number> {
+export async function updateCommandVersion(guildId: bigint): Promise<number> {
 	// UPDATE THE VERSION SAVED IN THE DB
-	// await prisma.commands.upsert({
-	//   where: { id: guildId },
-	//   create: { id: guildId, version: CURRENT_SLASH_COMMAND_VERSION },
-	//   update: { version: CURRENT_SLASH_COMMAND_VERSION },
-	// });
 
-	// bot.commandVersions.set(guildId, CURRENT_SLASH_COMMAND_VERSION);
-	// return CURRENT_SLASH_COMMAND_VERSION;
-	return 0;
+	bot.commandVersions.set(guildId, CURRENT_SLASH_COMMAND_VERSION);
+	return CURRENT_SLASH_COMMAND_VERSION;
 }
 
 export async function updateGuildCommands(bot: Bot, guildId: bigint) {
@@ -131,15 +124,16 @@ function createOptions(
 			name: translate(guildId, choice.name),
 		}));
 
+		if (option.options) console.log(option.options);
+
 		newOptions.push({
 			...option,
 			name: optionName.toLowerCase(),
 			description: optionDescription || 'No description available.',
 			choices,
-			// @ts-ignore fix this
 			options: option.options
-				? // @ts-ignore fix this
-				  createOptions(bot, guildId, option.options)
+				?
+				  createOptions(guildId, option.options)
 				: undefined,
 		} as ApplicationCommandOption);
 	}
