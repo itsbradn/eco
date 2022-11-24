@@ -42,6 +42,12 @@ const english = {
 	INVENTORY_USER: 'user',
 	INVENTORY_USER_DESCRIPTION: '👥 View another users inventory',
 
+	JOBS_NAME: 'jobs',
+	JOBS_DESCRIPTION: '💼 View the jobs you have available',
+
+	JOBS_PAGE: 'page',
+	JOBS_PAGE_DESCRIPTION: 'What page of jobs would you like to see?',
+
 	CRAFT_NAME: 'craft',
 	CRAFT_DESCRIPTION: '🔨 Craft items to progress.',
 	CRAFT_KEY_NAME: 'item',

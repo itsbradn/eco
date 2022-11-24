@@ -1,6 +1,5 @@
 import { ApplicationCommandOption, ApplicationCommandTypes, Bot } from 'discordeno';
-import { BotWithHelpersPlugin } from 'discordeno/helpers-plugin';
-import { bot, BotWithCustomProps } from '../../bot.js';
+import { bot } from '../../bot.js';
 import COMMANDS from '../../commands/mod.js';
 import { serverLanguages, translate } from '../../languages/translate.js';
 import { ArgumentDefinition } from './createCommand.js';

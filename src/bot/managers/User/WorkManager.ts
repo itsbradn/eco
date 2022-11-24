@@ -33,6 +33,10 @@ export class UserWorkManager extends UserDataManager {
 		this.model.work.raise.level = level;
 	}
 
+	get count(): number {
+		return this.model.work.timesWorked;
+	}
+
 	get pay(): number {
 		const job = jobs[this.model.work.job];
 		const basePay =

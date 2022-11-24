@@ -7,50 +7,44 @@ import {
 	MessageComponentTypes,
 } from 'discordeno/types';
 import { bot } from '../bot.js';
-import { items } from '../data/items/index.js';
+import { jobArray, jobs } from '../data/jobs/index.js';
 import { UserModule } from '../structures/user.js';
 import { collectInteractions } from '../utils/collectors.js';
 import { createCommand } from '../utils/slash/createCommand.js';
 
 export default createCommand({
-	name: 'INVENTORY_NAME',
-	description: 'INVENTORY_DESCRIPTION',
+	name: 'JOBS_NAME',
+	description: 'JOBS_DESCRIPTION',
 	options: [
 		{
-			name: 'INVENTORY_PAGE',
-			description: 'INVENTORY_PAGE_DESCRIPTION',
+			name: 'JOBS_PAGE',
+			description: 'JOBS_PAGE_DESCRIPTION',
 			required: false,
 			type: ApplicationCommandOptionTypes.Integer,
 		},
-		{
-			name: 'INVENTORY_USER',
-			description: 'INVENTORY_USER_DESCRIPTION',
-			required: false,
-			type: ApplicationCommandOptionTypes.User,
-		},
 	] as const,
 	execute: async function (_, interaction, args) {
-		const username = args.user ? args.user.user.username : interaction.user.username;
-		const user = args.user ? new UserModule(bot, args.user.user.id) : new UserModule(bot, interaction.user.id);
+		const username = interaction.user.username;
+		const user = new UserModule(bot, interaction.user.id);
 		await user.fetch();
 
-		const inventory = user.inventory.inventory.filter((v) => v.amount > 0);
-
-		const itemsPerPage = 15;
-		const pages = Math.ceil(inventory.length / itemsPerPage);
+		const jobsPerPage = 5;
+		const pages = Math.ceil(jobArray.length / jobsPerPage);
 
 		const page = Math.round(args.page ? args.page : 1) > pages ? pages : Math.round(args.page ? args.page : 1);
 
 		const sendEmbed = async (page: number, send?: boolean): Promise<void> => {
-			const startingIndex = page * itemsPerPage - itemsPerPage;
-			let inventoryString = ``;
+			const startingIndex = page * jobsPerPage - jobsPerPage;
+			let jobString = ``;
 
-			for (let i = 0; i < itemsPerPage; i++) {
-				const itemData = inventory[i + startingIndex];
-				if (!itemData) continue;
-				const item = items[itemData.name];
+			for (let i = 0; i < jobsPerPage; i++) {
+				const jobData = jobArray[i + startingIndex];
+				if (!jobData) continue;
+				const job = jobs[jobData.key];
 
-				inventoryString += `${item.emoji} ${item.name}: **${itemData.amount}**\n`;
+				jobString += `${job.name}: **${job.workRequirement}** ${user.work.count >= job.workRequirement ? '✅' : ''} ${
+					user.work.job === jobData.key ? '**🌟**' : ''
+				}\n`;
 			}
 
 			let components: ButtonComponent[] = [];
@@ -95,9 +89,12 @@ export default createCommand({
 					data: {
 						embeds: [
 							{
-								title: `${username}'s Inventory (Page ${page}/${pages})`,
-								description: inventoryString,
+								title: `${username}'s Jobs (Page ${page}/${pages})`,
+								description: jobString === '' ? 'There is currently no jobs!' : jobString,
 								color: bot.colors.default,
+								footer: {
+									text: '✅ = Available | 🌟 = Current',
+								},
 							},
 						],
 						components: [
@@ -112,9 +109,12 @@ export default createCommand({
 				interaction.editReply({
 					embeds: [
 						{
-							title: `${username}'s Inventory ${page > 0 ? `(Page ${page}/${pages})` : ''}`,
-							description: inventoryString === '' ? "You don't currently have any items!" : inventoryString,
+							title: `${username}'s Jobs ${page > 0 ? `(Page ${page}/${pages})` : ''}`,
+							description: jobString === '' ? 'There is currently no jobs!' : jobString,
 							color: bot.colors.default,
+							footer: {
+								text: '✅ = Available | 🌟 = Current',
+							},
 						},
 					],
 					components: [
@@ -140,11 +140,15 @@ export default createCommand({
 				interaction.editReply({
 					embeds: [
 						{
-							title: `${username}'s Inventory ${page > 0 ? `(Page ${page}/${pages})` : ''}`,
-							description: inventoryString === '' ? "You don't currently have any items!" : inventoryString,
+							title: `${username}'s Jobs ${page > 0 ? `(Page ${page}/${pages})` : ''}`,
+							description: jobString === '' ? 'There is currently no jobs!' : jobString,
 							color: bot.colors.default,
+							footer: {
+								text: '✅ = Available | 🌟 = Current',
+							},
 						},
 					],
+					components: [],
 				});
 				return;
 			}
