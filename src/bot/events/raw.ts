@@ -37,6 +37,9 @@ export function setRawEvent() {
 		//   await updateGuildCommands(bot, id).catch(bot.logger.error);
 
 		if (bot.curGuilds.has(id)) return;
-		await updateGuildCommands(bot, id).catch(bot.logger.error);
+		await updateGuildCommands(bot, id).catch((e) => {
+			bot.logger.error('Could not update guild commands for ' + id);
+			bot.logger.error(e);
+		});
 	};
 }
