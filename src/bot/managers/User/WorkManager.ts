@@ -66,7 +66,7 @@ export class UserWorkManager extends UserDataManager {
 		const typedCorrectly = word === typed;
 		const gotFired = typedCorrectly ? false : percentChance(30);
 		const gotSick = gotFired ? false : percentChance(2);
-		const wasPerfect = typedCorrectly && !gotSick ? percentChance(4) : false;
+		const wasPerfect = typedCorrectly && !gotSick ? percentChance(20) : false;
 		const addExp = typedCorrectly
 			? this.userModule.level.addRandExperience()
 			: this.userModule.level.addRandExperience(5, 10);
