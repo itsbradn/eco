@@ -32,9 +32,15 @@ const english = {
 
 	PROFILE_NAME: 'profile',
 	PROFILE_DESCRIPTION: '👜 See your profile including balance, stats, and more!',
-
 	PROFILE_USER: 'user',
 	PROFILE_USER_DESCRIPTION: '👥 View another users profile and stats',
+
+	INVENTORY_NAME: 'inventory',
+	INVENTORY_DESCRIPTION: '👜 View all the items you own',
+	INVENTORY_PAGE: 'page',
+	INVENTORY_PAGE_DESCRIPTION: 'What page of your inventory would you like to see?',
+	INVENTORY_USER: 'user',
+	INVENTORY_USER_DESCRIPTION: '👥 View another users inventory',
 
 	CRAFT_NAME: 'craft',
 	CRAFT_DESCRIPTION: '🔨 Craft items to progress.',
