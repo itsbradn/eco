@@ -24,11 +24,11 @@ export function setRawEvent() {
 		);
 
 		//   // The GUILD_CREATE event came from a shard loaded event so ignore it
-		//   if (["READY", "GUILD_LOADED_DD", null].includes(data.t)) return;
+		if (['READY', 'GUILD_LOADED_DD', null].includes(data.t)) return;
 
 		//   // console.log({ id, v: await usesLatestCommandVersion(id) })
 
-		//   if (!id || (await usesLatestCommandVersion(id))) return;
+		if (!id || (await usesLatestCommandVersion(id))) return;
 		//   // dev guild
 		//   if (id === 547046977578336286n) return;
 
