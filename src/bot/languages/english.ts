@@ -48,6 +48,12 @@ const english = {
 	JOBS_PAGE: 'page',
 	JOBS_PAGE_DESCRIPTION: 'What page of jobs would you like to see?',
 
+	APPLY_NAME: 'apply',
+	APPLY_DESCRIPTION: '💼 Apply for a new job',
+
+	APPLY_JOB_NAME: 'job',
+	APPLY_JOB_DESCRIPTION: 'What job would you like to apply for?',
+
 	CRAFT_NAME: 'craft',
 	CRAFT_DESCRIPTION: '🔨 Craft items to progress.',
 	CRAFT_KEY_NAME: 'item',

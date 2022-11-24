@@ -42,7 +42,7 @@ export default createCommand({
 				if (!jobData) continue;
 				const job = jobs[jobData.key];
 
-				jobString += `${job.name}: **${job.workRequirement}** ${user.work.count >= job.workRequirement ? '✅' : ''} ${
+				jobString += `${job.name}: **${job.workRequirement} works** ${user.work.count >= job.workRequirement ? '✅' : ''} ${
 					user.work.job === jobData.key ? '**🌟**' : ''
 				}\n`;
 			}

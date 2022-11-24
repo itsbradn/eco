@@ -8,6 +8,7 @@ import mine from './mine';
 import archeologist from './archeologist.js';
 import inventory from './inventory.js';
 import jobs from './jobs.js';
+import apply from './apply.js';
 
 export const COMMANDS = {
 	// language,
@@ -19,7 +20,8 @@ export const COMMANDS = {
 	mine,
 	archeologist,
 	inventory,
-	jobs
+	jobs,
+	apply
 };
 
 export default COMMANDS;
