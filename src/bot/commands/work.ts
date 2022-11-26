@@ -134,7 +134,7 @@ export default createCommand({
 			};
 			if (result.didLevelUp) rewards.value += `⭐ Leveled Up!\n`;
 			if (result.gotRaise) rewards.value += `💼 You got a raise!\n`;
-			if (percentChance(70)) {
+			if (percentChance(85)) {
 				user.inventory.add('CheapPresent', 1);
 				rewards.value += `🎁 +1 Cheap Present\n`;
 			}
