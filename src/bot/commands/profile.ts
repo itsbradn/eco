@@ -5,62 +5,68 @@ import { createCommand } from '../utils/slash/createCommand.js';
 
 export default createCommand({
 	name: 'PROFILE_NAME',
-    description: 'PROFILE_DESCRIPTION',
-    options: [
-        {
-            name: 'PROFILE_USER',
-            description: 'PROFILE_USER_DESCRIPTION',
-            required: false,
-            type: ApplicationCommandOptionTypes.User,
-        }
-    ],
+	description: 'PROFILE_DESCRIPTION',
+	options: [
+		{
+			name: 'PROFILE_USER',
+			description: 'PROFILE_USER_DESCRIPTION',
+			required: false,
+			type: ApplicationCommandOptionTypes.User,
+		},
+	],
 	execute: async function (_, interaction, args) {
+		if (args.user) {
+			const user = new UserModule(bot, args.user.user.id);
+			await user.fetch();
 
-        if (args.user) {
-            const user = new UserModule(bot, args.user.user.id);
-            await user.fetch();
+			interaction.reply({
+				type: InteractionResponseTypes.ChannelMessageWithSource,
+				data: {
+					embeds: [
+						{
+							title: `${args.user.user.username}'s Profile 👜`,
+							fields: [
+								{
+									name: 'Economy',
+									value: `🪙 Coins: **${user.coins.balance}**\n💎 Gems: **${user.gems.balance}**`,
+								},
+								{
+									name: 'Work',
+									value: `💼 Work Count: **${user.work.count}**\n💼 Current Job: **${user.work.job}**`,
+								},
+							],
+							color: bot.colors.default,
+						},
+					],
+				},
+			});
+			return;
+		}
 
-            interaction.reply({
-                type: InteractionResponseTypes.ChannelMessageWithSource,
-                data: {
-                    embeds: [
-                        {
-                            title: `${args.user.user.username}'s Profile 👜`,
-                            fields: [
-                                {
-                                    name: 'Economy',
-                                    value: `🪙 Coins: **${user.coins.balance}**\n💎 Gems: **${user.gems.balance}**`,
-                                }
-                            ],
-                            color: bot.colors.default,
-                        }
-                    ]
-                }
-            })
-            return;
-        }
+		const user = new UserModule(bot, interaction.user.id);
+		await user.fetch();
 
-        const user = new UserModule(bot, interaction.user.id);
-        await user.fetch();
-
-        interaction.reply({
-            type: InteractionResponseTypes.ChannelMessageWithSource,
-            data: {
-                embeds: [
-                    {
-                        title: `${interaction.user.username}'s Profile 👜`,
-                        fields: [
-                            {
-                                name: 'Economy',
-                                value: `🪙 Coins: **${user.coins.balance}**\n💎 Gems: **${user.gems.balance}**`,
-                            }
-                        ],
-                        color: bot.colors.default,
-                    }
-                ]
-            }
-        })
-
+		interaction.reply({
+			type: InteractionResponseTypes.ChannelMessageWithSource,
+			data: {
+				embeds: [
+					{
+						title: `${interaction.user.username}'s Profile 👜`,
+						fields: [
+							{
+								name: 'Economy',
+								value: `🪙 Coins: **${user.coins.balance}**\n💎 Gems: **${user.gems.balance}**`,
+							},
+							{
+								name: 'Work',
+								value: `💼 Work Count: **${user.work.count}**\n💼 Current Job: **${user.work.job}**`,
+							},
+						],
+						color: bot.colors.default,
+					},
+				],
+			},
+		});
 	},
 });
 

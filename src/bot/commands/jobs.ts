@@ -7,7 +7,7 @@ import {
 	MessageComponentTypes,
 } from 'discordeno/types';
 import { bot } from '../bot.js';
-import { jobArray, jobs } from '../data/jobs/index.js';
+import { jobArray, jobs, jobType } from '../data/jobs/index.js';
 import { UserModule } from '../structures/user.js';
 import { collectInteractions } from '../utils/collectors.js';
 import { createCommand } from '../utils/slash/createCommand.js';
@@ -33,6 +33,58 @@ export default createCommand({
 
 		const page = Math.round(args.page ? args.page : 1) > pages ? pages : Math.round(args.page ? args.page : 1);
 
+		let progressData:
+			| {
+					string: string;
+					job: jobType;
+					lastJob: jobType | undefined;
+			  }
+			| undefined;
+
+		for (let i = 0; i < jobArray.length; i++) {
+			const job = jobArray[i] || 'none';
+			const lastJob = jobArray[i - 1] || 'none';
+
+			if (job === 'none') continue;
+
+			if (user.work.count < (job.value.workRequirement === 'none' ? 0 : job.value.workRequirement)) {
+				const percent = Math.floor(
+					(100 * user.work.count) / (job.value.workRequirement === 'none' ? 0 : job.value.workRequirement) / 10,
+				);
+				progressData = {
+					string: genProgressBar(percent),
+					job: job.key,
+					lastJob: lastJob === 'none' ? undefined : lastJob.key,
+				};
+				break;
+			}
+		}
+
+		function genProgressBar(perTen: number) {
+			let final = ``;
+			for (let i = 0; i < 10; i++) {
+				const num = i + 1;
+				if (num === 1) {
+					if (perTen >= 1) final += `<:baremptystart:1048014733061668955>`;
+					else final += `<:barfullstart:1048014732126330940>`;
+					continue;
+				}
+				if (num === 10) {
+					if (perTen < 10) final += `<:baremptyend:1048014727684575322>`;
+					else final += `<:barfullend:1048014728682819635>`;
+					continue;
+				}
+
+				if (num > perTen) final += `<:barempty:1048014730842882049>`;
+				else final += `<:barfull:1048014729794289724>`;
+				continue;
+			}
+
+			return final;
+		}
+
+		console.log(progressData);
+
 		const sendEmbed = async (page: number, send?: boolean): Promise<void> => {
 			const startingIndex = page * jobsPerPage - jobsPerPage;
 			let jobString = ``;
@@ -42,9 +94,9 @@ export default createCommand({
 				if (!jobData) continue;
 				const job = jobs[jobData.key];
 
-				jobString += `${job.name}: **${job.workRequirement} works** ${user.work.count >= job.workRequirement ? '✅' : ''} ${
-					user.work.job === jobData.key ? '**🌟**' : ''
-				}\n`;
+				jobString += `${job.name}: **${job.workRequirement} works** ${
+					user.work.count >= job.workRequirement ? '✅' : ''
+				} ${user.work.job === jobData.key ? '**🌟**' : ''}\n`;
 			}
 
 			let components: ButtonComponent[] = [];
@@ -81,6 +133,12 @@ export default createCommand({
 					label: 'Next Page',
 					style: ButtonStyles.Primary,
 				});
+			}
+
+			if (progressData) {
+				jobString += `\n${progressData.lastJob ? jobs[progressData.lastJob].name : 'none'} >>> ${
+					jobs[progressData.job].name
+				}\n ${progressData.string} `;
 			}
 
 			if (send) {
