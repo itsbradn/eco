@@ -65,8 +65,8 @@ export default createCommand({
 			for (let i = 0; i < 10; i++) {
 				const num = i + 1;
 				if (num === 1) {
-					if (perTen >= 1) final += `<:baremptystart:1048014733061668955>`;
-					else final += `<:barfullstart:1048014732126330940>`;
+					if (perTen >= 1) final += `<:barfullstart:1048014732126330940>`;
+					else final += `<:baremptystart:1048014733061668955>`;
 					continue;
 				}
 				if (num === 10) {
